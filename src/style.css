@@ -1,0 +1,1078 @@
+/* Modern Dark CSS Design System for Guitar Interval Trainer */
+:root {
+  /* Main palette */
+  --bg-color: #0b0c10;
+  --bg-surface: rgba(20, 22, 30, 0.7);
+  --bg-surface-solid: #151821;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(255, 255, 255, 0.2);
+  
+  --text-main: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-highlight: #ffffff;
+  
+  /* Interval colors */
+  --color-root: #f59e0b; /* Gold/Amber */
+  --color-m2: #ef4444;   /* Crimson Red */
+  --color-M2: #f97316;   /* Orange */
+  --color-m3: #ec4899;   /* Pink */
+  --color-M3: #10b981;   /* Emerald Green */
+  --color-P4: #06b6d4;   /* Cyan */
+  --color-tritone: #a855f7; /* Purple */
+  --color-P5: #3b82f6;   /* Royal Blue */
+  --color-m6: #84cc16;   /* Lime Green */
+  --color-M6: #a3e635;   /* Light Lime */
+  --color-m7: #6366f1;   /* Indigo */
+  --color-M7: #14b8a6;   /* Teal */
+  --color-octave: #e879f9; /* Magenta */
+  
+  --primary-accent: #6366f1;
+  --primary-accent-glow: rgba(99, 102, 241, 0.4);
+  --success: #10b981;
+  --error: #ef4444;
+  
+  /* Fonts */
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Outfit', sans-serif;
+  
+  /* Fretboard design */
+  --fretboard-wood: #1e1613;
+  --fretboard-wood-lighter: #281d19;
+  --fret-wire: #a1a1aa;
+  --fret-marker-pearl: #e2e8f0;
+  --nut-color: #f1f5f9;
+  
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.1) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+#app {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header & Navigation */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-section i {
+  font-size: 2.25rem;
+  background: linear-gradient(135deg, var(--color-root), var(--color-P5));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-section h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.75rem;
+  margin: 0;
+  letter-spacing: -0.025em;
+  background: linear-gradient(to right, #ffffff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.35rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-btn:hover {
+  color: var(--text-highlight);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-btn.active {
+  color: #ffffff;
+  background: var(--primary-accent);
+  box-shadow: 0 0 15px var(--primary-accent-glow);
+}
+
+/* Audio Interactivity Banner */
+.audio-banner {
+  background: linear-gradient(90deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.audio-banner-text {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.audio-banner-text i {
+  font-size: 1.25rem;
+  color: var(--color-root);
+  animation: pulse 1.5s infinite;
+}
+
+.audio-banner button {
+  background: var(--text-highlight);
+  color: var(--bg-color);
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.audio-banner button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+/* Main Container & Grid */
+main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card Styles (Glassmorphism) */
+.glass-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.75rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.3s;
+}
+
+.glass-card:hover {
+  border-color: var(--border-highlight);
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Global Controls/Sidebar */
+.controls-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.control-group label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.custom-select, .custom-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-main);
+  padding: 0.6rem 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.custom-select:focus, .custom-input:focus {
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.volume-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.volume-slider {
+  flex: 1;
+  accent-color: var(--primary-accent);
+}
+
+.mute-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: 8px;
+  padding: 0.6rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mute-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-highlight);
+}
+
+/* Toggle Switches */
+.toggle-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: .4s;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-accent);
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* VISUAL GUITAR FRETBOARD */
+.fretboard-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 1.5rem 0.5rem;
+  border-radius: 12px;
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  margin-bottom: 1.5rem;
+}
+
+.fretboard-scroll-wrapper {
+  min-width: 900px;
+  padding: 10px 0;
+  position: relative;
+}
+
+.fretboard-canvas {
+  position: relative;
+  height: 200px;
+  background: linear-gradient(to bottom, var(--fretboard-wood), var(--fretboard-wood-lighter), var(--fretboard-wood));
+  border-radius: 4px;
+  border-left: 10px solid var(--nut-color); /* The Nut */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+/* Fret lines and positions */
+.fret {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to right, #ccc, #fff, #999);
+  box-shadow: 1px 0 2px rgba(0,0,0,0.6);
+  z-index: 2;
+}
+
+/* Fret markers (Pearl Dots) */
+.fret-markers {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.pearl-dot {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, #fcfcfc, #d5d9e0);
+  border-radius: 50%;
+  opacity: 0.6;
+  top: calc(50% - 8px);
+  transform: translateX(-50%);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.4);
+}
+
+/* Double dot for 12th fret */
+.pearl-dot.double-top {
+  top: 25%;
+  margin-top: -8px;
+}
+.pearl-dot.double-bottom {
+  top: 75%;
+  margin-top: -8px;
+}
+
+/* Strings */
+.strings-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 0; /* String spacing */
+  z-index: 3;
+  pointer-events: none;
+}
+
+.guitar-string {
+  width: 100%;
+  background: linear-gradient(to bottom, #d1d5db, #9ca3af, #4b5563);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  transition: transform 0.05s ease-in-out;
+}
+
+.guitar-string.vibrating {
+  animation: stringVibrate 0.15s infinite alternate;
+}
+
+@keyframes stringVibrate {
+  0% { transform: translateY(-1px); }
+  100% { transform: translateY(1.5px); }
+}
+
+/* Fretboard interactive areas (Clickable Fret-String intersections) */
+.interactive-frets {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 4;
+}
+
+.fret-tap-zone {
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Fret Hover State */
+.fret-tap-zone:hover::before {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  animation: pulse 1.5s infinite;
+}
+
+/* Fretboard Note Markers */
+.note-marker {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4), inset 0 2px 2px rgba(255,255,255,0.2);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  user-select: none;
+  z-index: 5;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.note-marker.note-root {
+  background: radial-gradient(circle at 30% 30%, #f59e0b, #b45309);
+  color: #111;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+  border: 1.5px solid #fff;
+  font-weight: 800;
+}
+
+.note-marker.plucked {
+  transform: scale(1.3);
+  box-shadow: 0 0 20px currentColor;
+}
+
+/* Color classes for note markers dynamically injected based on interval */
+.note-marker.interval-r  { background: radial-gradient(circle at 30% 30%, var(--color-root), #b45309); box-shadow: 0 0 8px rgba(245, 158, 11, 0.5); }
+.note-marker.interval-m2 { background: radial-gradient(circle at 30% 30%, var(--color-m2), #991b1b); box-shadow: 0 0 8px rgba(239, 68, 68, 0.5); }
+.note-marker.interval-M2 { background: radial-gradient(circle at 30% 30%, var(--color-M2), #c2410c); box-shadow: 0 0 8px rgba(249, 115, 22, 0.5); }
+.note-marker.interval-m3 { background: radial-gradient(circle at 30% 30%, var(--color-m3), #9d174d); box-shadow: 0 0 8px rgba(236, 72, 153, 0.5); }
+.note-marker.interval-M3 { background: radial-gradient(circle at 30% 30%, var(--color-M3), #065f46); box-shadow: 0 0 8px rgba(16, 185, 129, 0.5); }
+.note-marker.interval-P4 { background: radial-gradient(circle at 30% 30%, var(--color-P4), #155e75); box-shadow: 0 0 8px rgba(6, 182, 212, 0.5); }
+.note-marker.interval-d5 { background: radial-gradient(circle at 30% 30%, var(--color-tritone), #6b21a8); box-shadow: 0 0 8px rgba(168, 85, 247, 0.5); }
+.note-marker.interval-P5 { background: radial-gradient(circle at 30% 30%, var(--color-P5), #1e40af); box-shadow: 0 0 8px rgba(59, 130, 246, 0.5); }
+.note-marker.interval-m6 { background: radial-gradient(circle at 30% 30%, var(--color-m6), #3f6212); box-shadow: 0 0 8px rgba(132, 204, 22, 0.5); }
+.note-marker.interval-M6 { background: radial-gradient(circle at 30% 30%, var(--color-M6), #4d7c0f); box-shadow: 0 0 8px rgba(163, 230, 53, 0.5); }
+.note-marker.interval-m7 { background: radial-gradient(circle at 30% 30%, var(--color-m7), #3730a3); box-shadow: 0 0 8px rgba(99, 102, 241, 0.5); }
+.note-marker.interval-M7 { background: radial-gradient(circle at 30% 30%, var(--color-M7), #115e59); box-shadow: 0 0 8px rgba(20, 184, 166, 0.5); }
+.note-marker.interval-oct{ background: radial-gradient(circle at 30% 30%, var(--color-octave), #86198f); box-shadow: 0 0 8px rgba(232, 121, 249, 0.5); }
+
+/* Fret number indicators */
+.fret-numbers {
+  display: flex;
+  margin-top: 5px;
+  padding-left: 10px; /* offset the nut width */
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.fret-number {
+  text-align: center;
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+/* Fretboard Legends */
+.legend-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.legend-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.legend-color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* TAB CONTENT WRAPPER */
+.tab-content {
+  display: none;
+  animation: tabFadeIn 0.3s ease-out forwards;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tab 1: Fretboard Explorer (Free Play) */
+.explorer-instructions {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.selected-notes-display {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  align-items: center;
+}
+
+.selected-notes-display h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.note-bubbles {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.note-bubble {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.note-bubble.is-root {
+  border: 1px solid var(--color-root);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.note-bubble .remove-btn {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.note-bubble .remove-btn:hover {
+  opacity: 1;
+}
+
+/* Tab 2: Learn Module */
+.learn-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .learn-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.learn-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.learn-topic-btn {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 0.9rem 1.25rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 600;
+  transition: all 0.25s;
+}
+
+.learn-topic-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-highlight);
+}
+
+.learn-topic-btn.active {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.15));
+  border-color: var(--primary-accent);
+  color: var(--text-highlight);
+}
+
+.learn-body {
+  line-height: 1.7;
+}
+
+.learn-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, #fff, var(--text-muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.learn-interactive-preview {
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-color);
+  padding: 1.25rem;
+}
+
+.learn-shape-selector {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.mini-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mini-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.mini-btn.active {
+  background: var(--primary-accent);
+  border-color: var(--primary-accent);
+}
+
+/* Theory Quiz section in Learn */
+.quiz-box {
+  background: rgba(99, 102, 241, 0.05);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.quiz-question {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 500px) {
+  .quiz-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+.quiz-option-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  text-align: left;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quiz-option-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--border-highlight);
+}
+
+.quiz-option-btn.correct {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--success);
+  color: #a7f3d0;
+}
+
+.quiz-option-btn.incorrect {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: var(--error);
+  color: #fca5a5;
+}
+
+.quiz-feedback {
+  margin-top: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Tab 3: Ear Trainer & Tab 4: Fretboard Trainer */
+.game-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.game-score-banner {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  align-items: center;
+}
+
+.game-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.game-stat-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-highlight);
+}
+
+.game-stat-value.streak {
+  color: var(--color-root);
+}
+
+.game-card {
+  text-align: center;
+}
+
+.game-instructions {
+  font-size: 1.15rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.game-instructions strong {
+  color: var(--color-root);
+}
+
+.play-interval-btn {
+  background: linear-gradient(135deg, var(--primary-accent), #4f46e5);
+  color: #fff;
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.play-interval-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+}
+
+.play-interval-btn:active {
+  transform: translateY(0);
+}
+
+.game-options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .game-options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.game-option-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.game-option-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--border-highlight);
+}
+
+.game-option-card.correct {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border-color: var(--success) !important;
+  color: #a7f3d0;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.game-option-card.incorrect {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border-color: var(--error) !important;
+  color: #fca5a5;
+}
+
+.game-feedback-text {
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  min-height: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.next-question-btn {
+  background: var(--text-highlight);
+  color: var(--bg-color);
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.next-question-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+
+/* Audio config selector inside ear trainer */
+.ear-trainer-settings {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.ear-trainer-settings label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.ear-trainer-settings input[type="radio"] {
+  accent-color: var(--primary-accent);
+}
+
+/* FRETBOARD QUIZ CONTAINER */
+.quiz-fretboard-status {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.quiz-fretboard-status span {
+  color: var(--color-root);
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 2rem 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border-color);
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--text-highlight);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
