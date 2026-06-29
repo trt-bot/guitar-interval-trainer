@@ -201,17 +201,17 @@ class GuitarSynth {
         // Warm up the metallic sample tone by filtering out high harpsichord-like frequencies
         const filter = this.audioCtx.createBiquadFilter();
         filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(2400, startTime); // roll off high metallic clink
+        filter.frequency.setValueAtTime(1400, startTime); // roll off high metallic clink further
 
         // Boost the lower mid-range body resonance of the acoustic guitar
         const bodyBoost = this.audioCtx.createBiquadFilter();
         bodyBoost.type = 'lowshelf';
-        bodyBoost.frequency.setValueAtTime(180, startTime);
-        bodyBoost.gain.setValueAtTime(4.0, startTime); // +4dB boost for woody depth
+        bodyBoost.frequency.setValueAtTime(130, startTime);
+        bodyBoost.gain.setValueAtTime(8.0, startTime); // +8dB boost for woody depth
 
         const noteGain = this.audioCtx.createGain();
         noteGain.gain.setValueAtTime(0.001, startTime);
-        noteGain.gain.linearRampToValueAtTime(1.0, startTime + 0.008); // 8ms fade-in to smooth the harsh initial pick scrape
+        noteGain.gain.linearRampToValueAtTime(1.0, startTime + 0.018); // 18ms fade-in to smooth the harsh initial pick scrape
         noteGain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
 
         // Chain: Source -> Lowpass -> Lowshelf -> Gain -> Output
@@ -246,8 +246,8 @@ class GuitarSynth {
 
     const lowPassFilter = this.audioCtx.createBiquadFilter();
     lowPassFilter.type = 'lowpass';
-    lowPassFilter.frequency.setValueAtTime(frequency * 6, startTime);
-    lowPassFilter.frequency.exponentialRampToValueAtTime(frequency * 1.5, startTime + 0.25);
+    lowPassFilter.frequency.setValueAtTime(frequency * 3.5, startTime);
+    lowPassFilter.frequency.exponentialRampToValueAtTime(frequency * 1.1, startTime + 0.25);
     lowPassFilter.Q.setValueAtTime(1.5, startTime);
 
     lowPassFilter.connect(noteGain);
@@ -262,7 +262,7 @@ class GuitarSynth {
     osc2.type = 'sine';
     osc2.frequency.setValueAtTime(frequency * 2, startTime);
     const osc2Gain = this.audioCtx.createGain();
-    osc2Gain.gain.setValueAtTime(0.12, startTime);
+    osc2Gain.gain.setValueAtTime(0.06, startTime);
     osc2Gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.35);
     osc2.connect(osc2Gain);
     osc2Gain.connect(lowPassFilter);
@@ -271,7 +271,7 @@ class GuitarSynth {
     osc3.type = 'sine';
     osc3.frequency.setValueAtTime(frequency * 3, startTime);
     const osc3Gain = this.audioCtx.createGain();
-    osc3Gain.gain.setValueAtTime(0.06, startTime);
+    osc3Gain.gain.setValueAtTime(0.02, startTime);
     osc3Gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.2);
     osc3.connect(osc3Gain);
     osc3Gain.connect(lowPassFilter);
@@ -291,7 +291,7 @@ class GuitarSynth {
     noiseFilter.Q.setValueAtTime(3.0, startTime);
 
     const noiseGain = this.audioCtx.createGain();
-    noiseGain.gain.setValueAtTime(0.08, startTime);
+    noiseGain.gain.setValueAtTime(0.03, startTime);
     noiseGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.015);
 
     noiseNode.connect(noiseFilter);
