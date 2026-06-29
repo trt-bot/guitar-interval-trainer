@@ -198,12 +198,26 @@ class GuitarSynth {
         const bufferSource = this.audioCtx.createBufferSource();
         bufferSource.buffer = buffer;
 
+        // Warm up the metallic sample tone by filtering out high harpsichord-like frequencies
+        const filter = this.audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(2400, startTime); // roll off high metallic clink
+
+        // Boost the lower mid-range body resonance of the acoustic guitar
+        const bodyBoost = this.audioCtx.createBiquadFilter();
+        bodyBoost.type = 'lowshelf';
+        bodyBoost.frequency.setValueAtTime(180, startTime);
+        bodyBoost.gain.setValueAtTime(4.0, startTime); // +4dB boost for woody depth
+
         const noteGain = this.audioCtx.createGain();
-        noteGain.gain.setValueAtTime(1.0, startTime);
-        // Clean exponential release decay
+        noteGain.gain.setValueAtTime(0.001, startTime);
+        noteGain.gain.linearRampToValueAtTime(1.0, startTime + 0.008); // 8ms fade-in to smooth the harsh initial pick scrape
         noteGain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
 
-        bufferSource.connect(noteGain);
+        // Chain: Source -> Lowpass -> Lowshelf -> Gain -> Output
+        bufferSource.connect(filter);
+        filter.connect(bodyBoost);
+        bodyBoost.connect(noteGain);
         noteGain.connect(this.globalGain);
 
         bufferSource.start(startTime);
