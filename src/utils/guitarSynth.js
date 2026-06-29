@@ -27,10 +27,36 @@ class GuitarSynth {
     this.globalGain.gain.setValueAtTime(this.volume, this.audioCtx.currentTime);
     this.globalGain.connect(this.audioCtx.destination);
 
+    // Bypasses the iOS physical silent switch by playing a silent media loop
+    this.enableIOSMuteBypass();
+
     console.log('Audio engine started.');
     
     // Start loading high-quality samples in the background
     this.loadSamples();
+  }
+
+  /**
+   * Plays a 0.1-second silent WAV loop in an HTML5 audio element.
+   * This forces iOS to upgrade the browser audio session from "Ambient" (respects silent switch)
+   * to "Playback" (ignores silent switch), letting the Web Audio API play through the built-in speaker.
+   */
+  enableIOSMuteBypass() {
+    try {
+      const silentAudio = document.createElement('audio');
+      silentAudio.setAttribute('loop', 'true');
+      silentAudio.setAttribute('playsinline', 'true');
+      // 1-second silent WAV base64
+      silentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+      
+      silentAudio.play().then(() => {
+        console.log('iOS physical mute switch bypass successfully activated.');
+      }).catch(err => {
+        console.log('iOS silent switch bypass deferred or unneeded:', err.message);
+      });
+    } catch (e) {
+      console.warn('Silent switch bypass initialization failed:', e);
+    }
   }
 
   /**
