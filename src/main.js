@@ -24,6 +24,9 @@ class App {
     this.renderAppShell();
     this.setupGlobalControls();
     
+    // Preload premium guitar samples in the background immediately
+    synth.loadSamples();
+    
     // Initialize components
     this.initExplorer();
     this.learnComponent = new Learn(document.getElementById('learn-tab-content'));
@@ -33,8 +36,8 @@ class App {
     // Handle tab switching
     this.setupTabNavigation();
 
-    // Setup audio activator banner
-    this.setupAudioBanner();
+    // Setup silent audio activation on first user gesture
+    this.setupAudioActivation();
 
     // Trigger initial tab
     this.switchTab('explore');
@@ -43,15 +46,6 @@ class App {
   renderAppShell() {
     const appEl = document.getElementById('app');
     appEl.innerHTML = `
-      <!-- Audio activation warning banner -->
-      <div class="audio-banner" id="audio-activation-banner">
-        <div class="audio-banner-text">
-          <i class="fa-solid fa-guitar"></i>
-          <span><strong>Guitar Synth Ready:</strong> Click "Activate Audio" to enable organic plucked-string sound feedback!</span>
-        </div>
-        <button id="activate-audio-btn">Activate Audio</button>
-      </div>
-
       <!-- App Header -->
       <header>
         <div class="logo-section">
@@ -398,9 +392,7 @@ class App {
     }
   }
 
-  setupAudioBanner() {
-    const banner = document.getElementById('audio-activation-banner');
-    const btn = document.getElementById('activate-audio-btn');
+  setupAudioActivation() {
     const statusText = document.getElementById('audio-engine-status');
 
     // Update status text helper
@@ -417,38 +409,19 @@ class App {
     // Bind synth status changes
     synth.onStatusChange = (status) => {
       updateStatusText(status);
-      
-      // Also update banner text if it's still visible
-      const bannerSpan = banner.querySelector('.audio-banner-text span');
-      if (bannerSpan) {
-        if (status === 'loading') {
-          bannerSpan.innerHTML = `<strong>Loading Premium Samples:</strong> Downloading high-quality steel guitar sound library...`;
-        } else if (status === 'loaded') {
-          bannerSpan.innerHTML = `<strong>Acoustic Guitar Loaded:</strong> Premium physical-mode samples are ready! Click Activate.`;
-        } else if (status === 'failed') {
-          bannerSpan.innerHTML = `<strong>Synthesis Mode:</strong> Could not load CDN samples. Click Activate for synthesized sound.`;
-        }
-      }
     };
+
+    // Initialize status display to match current synth loading state
+    updateStatusText(synth.loadingStatus);
 
     const activate = () => {
       synth.init();
-      banner.style.transition = 'all 0.3s ease';
-      banner.style.opacity = '0';
-      banner.style.transform = 'translateY(-10px)';
-      setTimeout(() => {
-        banner.style.display = 'none';
-      }, 300);
     };
 
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      activate();
-    });
-
-    // Activate on first user gesture anywhere
+    // Activate silently on first user gesture anywhere on the page
     document.addEventListener('click', activate, { once: true });
     document.addEventListener('keydown', activate, { once: true });
+    document.addEventListener('touchstart', activate, { once: true });
   }
 }
 
