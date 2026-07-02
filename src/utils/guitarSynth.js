@@ -6,6 +6,7 @@ class GuitarSynth {
     this.globalGain = null;
     this.isMuted = false;
     this.volume = 0.5; // Default volume (0.0 to 1.0)
+    this.strumDelay = 0.08; // Default arpeggiation delay (80ms)
     
     // Sampler state
     this.soundfont = null;
@@ -335,7 +336,7 @@ class GuitarSynth {
    */
   playMidiChord(midiNotes, arpeggiated = true, noteDuration = 2.0) {
     midiNotes.forEach((midi, idx) => {
-      const delay = arpeggiated ? idx * 0.05 : 0; // 50ms delay per string for strumming
+      const delay = arpeggiated ? idx * this.strumDelay : 0; // use configured strum delay
       this.playMidiNote(midi, noteDuration - delay, delay);
     });
   }
